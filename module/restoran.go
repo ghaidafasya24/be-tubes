@@ -25,7 +25,7 @@ func MongoConnect(dbname string) (db *mongo.Database) {
 func InsertOneDoc(db string, collection string, doc interface{}) (insertedID interface{}) {
 	insertResult, err := MongoConnect(db).Collection(collection).InsertOne(context.TODO(), doc)
 	if err != nil {
-		fmt.Printf("InsertOneDoc: %v\n", err)
+		fmt.Printf("InsertOneDoc: %v\n", err) 
 	}
 	return insertResult.InsertedID
 }
@@ -41,23 +41,23 @@ func InsertMenu(db *mongo.Database, col string, menu model.Menu) (insertedID pri
 		"bahan_baku": menu.BahanBaku,
 	}
 	result, err := db.Collection(col).InsertOne(context.Background(), menurestoran)
-	if err != nil {
-		fmt.Printf("InsertMenu: %v\n", err)
-		return
+	if err != nil { //Jika terjadi kesalahan saat menyisipkan dokumen, maka akan mengembalikan pesan kesalahan
+		fmt.Printf("InsertMenu: %v\n", err) //mencetak pesan kesalahan ke console
+		return 
 	}
-	insertedID = result.InsertedID.(primitive.ObjectID)
-	return insertedID, nil
+	insertedID = result.InsertedID.(primitive.ObjectID) //Mengambil ID dari dokumen yang baru saja disisipkan dan mengubahnya ke tipe primitive.ObjectID.
+	return insertedID, nil //mengembalikan insertedID dan nil sebagai nilai err jika tidak ada kesalahan.
 }
 
 // ALL
-func GetAllMenu(db *mongo.Database, col string) (data []model.Menu) {
-	menurestoran := db.Collection(col)
-	filter := bson.M{}
-	cursor, err := menurestoran.Find(context.TODO(), filter)
+func GetAllMenu(db *mongo.Database, col string) (data []model.Menu) { 
+	menurestoran := db.Collection(col) 
+	filter := bson.M{} 
+	cursor, err := menurestoran.Find(context.TODO(), filter) 
 	if err != nil {
 		fmt.Println("GetALLData :", err)
 	}
-	err = cursor.All(context.TODO(), &data)
+	err = cursor.All(context.TODO(), &data) 
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -103,16 +103,16 @@ func UpdateMenu(db *mongo.Database, col string, id primitive.ObjectID, nama stri
 }
 
 func DeleteMenuByID(_id primitive.ObjectID, db *mongo.Database, col string) error {
-	karyawan := db.Collection(col)
+	menurestoran := db.Collection(col)
 	filter := bson.M{"_id": _id}
 
-	result, err := karyawan.DeleteOne(context.TODO(), filter)
+	result, err := menurestoran.DeleteOne(context.TODO(), filter)
 	if err != nil {
-		return fmt.Errorf("error deleting data for ID %s: %s", _id, err.Error())
+		return fmt.Errorf("error deleting data for ID %s: %s", _id, err.Error()) //mengembalikan pesan kesalahan jika terjadi kesalahan saat menghapus data
 	}
 
 	if result.DeletedCount == 0 {
-		return fmt.Errorf("data with ID %s not found", _id)
+		return fmt.Errorf("data with ID %s not found", _id) 
 	}
 
 	return nil

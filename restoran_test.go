@@ -11,22 +11,24 @@ import (
 
 // INSERT MENU
 func TestInsertMenu(t *testing.T) {
-	nama := "Kopi"
+	nama := "Dimsum"
 	harga := 5000.0
-	deskripsi := "minuman dengan rasa spesial"
+	deskripsi := "makanan dengan rasa spesial"
+	gambar := "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.unileverfoodsolutions.co.id%2Fid%2Frecipe%2Fdimsum-siomay-ayam-udang-R90021084.html&psig=AOvVaw388I_8mtipBM4q5bP--k9u&ust=1733199177193000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKiUhp2ciIoDFQAAAAAdAAAAABAE"
 
 	var kategori = model.Kategori{
-		Kategori: "Minuman",
+		Kategori: "Makanan",
 	}
 
 	var bahanBaku = model.BahanBaku{
-		BahanBaku: "Bubuk kopi, Air, Gula",
-		Jumlah:          "3",
+		BahanBaku: "Udang, Air, Tepung",
+		Jumlah:    "3",
 	}
 
 	menurestoran := model.Menu{
 		Nama:      nama,
 		Harga:     harga,
+		Gambar:    gambar,
 		Deskripsi: deskripsi,
 		Kategori:  kategori,
 		BahanBaku: bahanBaku,
@@ -39,7 +41,7 @@ func TestInsertMenu(t *testing.T) {
 	fmt.Printf("Data berhasil disimpan dengan id %s", insertedID.Hex())
 }
 
-// BY ID 
+// BY ID
 func TestGetMenuFromID(t *testing.T) {
 	id := "667e27a6cccefc9e0156f40d"
 	objectID, err := primitive.ObjectIDFromHex(id)

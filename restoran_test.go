@@ -14,7 +14,7 @@ func TestInsertMenu(t *testing.T) {
 	nama := "Dimsum"
 	harga := 5000.0
 	deskripsi := "makanan dengan rasa spesial"
-	gambar := "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.unileverfoodsolutions.co.id%2Fid%2Frecipe%2Fdimsum-siomay-ayam-udang-R90021084.html&psig=AOvVaw388I_8mtipBM4q5bP--k9u&ust=1733199177193000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKiUhp2ciIoDFQAAAAAdAAAAABAE"
+	// gambar := "image.jpg"
 
 	var kategori = model.Kategori{
 		Kategori: "Makanan",
@@ -26,9 +26,9 @@ func TestInsertMenu(t *testing.T) {
 	}
 
 	menurestoran := model.Menu{
-		Nama:      nama,
-		Harga:     harga,
-		Gambar:    gambar,
+		Nama:  nama,
+		Harga: harga,
+		// Gambar:    gambar,
 		Deskripsi: deskripsi,
 		Kategori:  kategori,
 		BahanBaku: bahanBaku,

@@ -4,14 +4,14 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/ghaidafasya24/be-tubes/model"
 	// "time"
 
+	"github.com/ghaidafasya24/be-tubes/model"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+
 )
 
 func MongoConnect(dbname string) (db *mongo.Database) {
@@ -25,7 +25,7 @@ func MongoConnect(dbname string) (db *mongo.Database) {
 func InsertOneDoc(db string, collection string, doc interface{}) (insertedID interface{}) {
 	insertResult, err := MongoConnect(db).Collection(collection).InsertOne(context.TODO(), doc)
 	if err != nil {
-		fmt.Printf("InsertOneDoc: %v\n", err) 
+		fmt.Printf("InsertOneDoc: %v\n", err)
 	}
 	return insertResult.InsertedID
 }
@@ -37,27 +37,28 @@ func InsertMenu(db *mongo.Database, col string, menu model.Menu) (insertedID pri
 		"nama":       menu.Nama,
 		"harga":      menu.Harga,
 		"deskripsi":  menu.Deskripsi,
+		"gambar":     menu.Gambar,
 		"kategori":   menu.Kategori,
 		"bahan_baku": menu.BahanBaku,
 	}
 	result, err := db.Collection(col).InsertOne(context.Background(), menurestoran)
 	if err != nil { //Jika terjadi kesalahan saat menyisipkan dokumen, maka akan mengembalikan pesan kesalahan
 		fmt.Printf("InsertMenu: %v\n", err) //mencetak pesan kesalahan ke console
-		return 
+		return
 	}
 	insertedID = result.InsertedID.(primitive.ObjectID) //Mengambil ID dari dokumen yang baru saja disisipkan dan mengubahnya ke tipe primitive.ObjectID.
-	return insertedID, nil //mengembalikan insertedID dan nil sebagai nilai err jika tidak ada kesalahan.
+	return insertedID, nil                              //mengembalikan insertedID dan nil sebagai nilai err jika tidak ada kesalahan.
 }
 
 // ALL
-func GetAllMenu(db *mongo.Database, col string) (data []model.Menu) { 
-	menurestoran := db.Collection(col) 
-	filter := bson.M{} 
-	cursor, err := menurestoran.Find(context.TODO(), filter) 
+func GetAllMenu(db *mongo.Database, col string) (data []model.Menu) {
+	menurestoran := db.Collection(col)
+	filter := bson.M{}
+	cursor, err := menurestoran.Find(context.TODO(), filter)
 	if err != nil {
 		fmt.Println("GetALLData :", err)
 	}
-	err = cursor.All(context.TODO(), &data) 
+	err = cursor.All(context.TODO(), &data)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -79,13 +80,14 @@ func GetMenuFromID(_id primitive.ObjectID, db *mongo.Database, col string) (menu
 }
 
 // UPDATE
-func UpdateMenu(db *mongo.Database, col string, id primitive.ObjectID, nama string, harga float64, deskripsi string, kategori model.Kategori, bahanBaku model.BahanBaku) (err error) {
+func UpdateMenu(db *mongo.Database, col string, id primitive.ObjectID, nama string, harga float64, deskripsi string, gambar string, kategori model.Kategori, bahanBaku model.BahanBaku) (err error) {
 	filter := bson.M{"_id": id}
 	update := bson.M{
 		"$set": bson.M{
 			"nama":       nama,
 			"harga":      harga,
 			"deskripsi":  deskripsi,
+			"gambar":     gambar,
 			"kategori":   kategori,
 			"bahan_baku": bahanBaku,
 		},
@@ -112,7 +114,7 @@ func DeleteMenuByID(_id primitive.ObjectID, db *mongo.Database, col string) erro
 	}
 
 	if result.DeletedCount == 0 {
-		return fmt.Errorf("data with ID %s not found", _id) 
+		return fmt.Errorf("data with ID %s not found", _id)
 	}
 
 	return nil

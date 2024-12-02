@@ -26,7 +26,7 @@ type BahanBaku struct {
 }
 
 type Customer struct {
-	ID        primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
-	BahanBaku string             `bson:"bahan_baku,omitempty" json:"bahan_baku,omitempty"`
-	Jumlah    string             `bson:"jumlah,omitempty" json:"jumlah,omitempty"`
+	ID     primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
+	Nama   string             `bson:"nama,omitempty" json:"nama,omitempty"`
+	NoTelp string             `bson:"no_telp,omitempty" json:"no_telp,omitempty"`
 }

@@ -7,31 +7,32 @@ import (
 	"github.com/ghaidafasya24/be-tubes/model"
 	"github.com/ghaidafasya24/be-tubes/module"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+
 )
 
 // INSERT MENU
 func TestInsertMenu(t *testing.T) {
-	nama := "Dimsum"
-	harga := 5000.0
-	deskripsi := "makanan dengan rasa spesial"
-	// gambar := "image.jpg"
+	menuname := "Dimsum"
+	price := 5000.0
+	description := "makanan dengan rasa spesial"
+	stock := 5
 
-	var kategori = model.Kategori{
-		Kategori: "Makanan",
+	var category = model.Category{
+		MenuCategories: "Makanan",
 	}
 
-	var bahanBaku = model.BahanBaku{
-		BahanBaku: "Udang, Air, Tepung",
-		Jumlah:    "3",
-	}
+	// var bahanBaku = model.BahanBaku{
+	// 	BahanBaku: "Udang, Air, Tepung",
+	// 	Jumlah:    "3",
+	// }
 
 	menurestoran := model.Menu{
-		Nama:  nama,
-		Harga: harga,
-		// Gambar:    gambar,
-		Deskripsi: deskripsi,
-		Kategori:  kategori,
-		BahanBaku: bahanBaku,
+		MenuName: menuname,
+		Price:    price,
+		Description: description,
+		Stock: stock,
+		MenuCategories:  category,
+		// BahanBaku: bahanBaku,
 	}
 
 	insertedID, err := module.InsertMenu(module.MongoConn, "restoran", menurestoran)

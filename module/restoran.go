@@ -34,12 +34,11 @@ func InsertOneDoc(db string, collection string, doc interface{}) (insertedID int
 func InsertMenu(db *mongo.Database, col string, menu model.Menu) (insertedID primitive.ObjectID, err error) {
 	// Membuat dokumen BSON untuk disimpan di MongoDB
 	menurestoran := bson.M{
-		"nama":       menu.Nama,
-		"harga":      menu.Harga,
-		"deskripsi":  menu.Deskripsi,
-		"gambar":     menu.Gambar,
-		"kategori":   menu.Kategori,
-		"bahan_baku": menu.BahanBaku,
+		"menu_name":       menu.MenuName,
+		"price":           menu.Price,
+		"description":     menu.Description,
+		"stock":           menu.Stock,
+		"menu_categories": menu.MenuCategories,
 	}
 	result, err := db.Collection(col).InsertOne(context.Background(), menurestoran)
 	if err != nil { //Jika terjadi kesalahan saat menyisipkan dokumen, maka akan mengembalikan pesan kesalahan
@@ -80,16 +79,15 @@ func GetMenuFromID(_id primitive.ObjectID, db *mongo.Database, col string) (menu
 }
 
 // UPDATE
-func UpdateMenu(db *mongo.Database, col string, id primitive.ObjectID, nama string, harga float64, deskripsi string, gambar string, kategori model.Kategori, bahanBaku model.BahanBaku) (err error) {
+func UpdateMenu(db *mongo.Database, col string, id primitive.ObjectID, menuname string, price float64, description string, stock int, category model.Category) (err error) {
 	filter := bson.M{"_id": id}
 	update := bson.M{
 		"$set": bson.M{
-			"nama":       nama,
-			"harga":      harga,
-			"deskripsi":  deskripsi,
-			"gambar":     gambar,
-			"kategori":   kategori,
-			"bahan_baku": bahanBaku,
+			"menu_name":       menuname,
+			"price":           price,
+			"description":     description,
+			"stock":           stock,
+			"menu_categories": category,
 		},
 	}
 	result, err := db.Collection(col).UpdateOne(context.Background(), filter, update)
